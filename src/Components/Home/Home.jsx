@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react';
 import { Header } from '../Header/Header';
 import { Loader } from '../../Hooks/Loader';
@@ -22,7 +23,7 @@ export const Home = () => {
 	}, [cityData]);
 
 	return (
-		<div className='h-screen w-[950px] mx-auto p-10'>
+		<div className='h-screen w-[950px] mx-auto p-10 '>
 			<Header />
 			<main className='h-[440px] mt-5 rounded-lg shadow-md'>
 				{loader ? (
