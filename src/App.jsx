@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Home } from './Components/Home/Home';
+import { WeatherContextProvider } from './Components/Context/WeatherContext';
+
 function App() {
 	return (
-		<div className='bg-[#F8FAFF]'>
-			<Home />
-		</div>
+		<WeatherContextProvider>
+			<div className='bg-[#dadada]'>
+				<Home />
+			</div>
+		</WeatherContextProvider>
 	);
 }
 
