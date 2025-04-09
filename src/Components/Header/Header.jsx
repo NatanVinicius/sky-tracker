@@ -1,13 +1,51 @@
+import { useEffect, useState } from 'react';
 import { Logo } from '../../assets/logo';
 import SplitText from '../Effects/SplitText';
 
 export const Header = () => {
+	const GREETINGS = [
+		{
+			start: 0,
+			end: 6,
+			message: { first: 'Good', second: 'Night' },
+		},
+		{
+			start: 7,
+			end: 11,
+			message: { first: 'Good', second: 'Morning' },
+		},
+		{
+			start: 12,
+			end: 17,
+			message: { first: 'Good', second: 'Afertnoon' },
+		},
+		{
+			start: 18,
+			end: 23,
+			message: { first: 'Good', second: 'Evening' },
+		},
+	];
+	const [greeting, setGreeting] = useState({});
+
+	useEffect(() => {
+		const getGreeting = () => {
+			const hour = new Date().getHours();
+			const range = GREETINGS.find(
+				({ start, end }) => hour >= start && hour <= end,
+			);
+			return range?.message ?? 'Invalid hour';
+		};
+		const range = getGreeting();
+
+		setGreeting(range);
+	}, []);
+
 	return (
 		<div className='flex justify-between'>
 			<div className='flex flex-col items-start'>
 				<SplitText
-					text='GOOD'
-					className='text-[#042848] text-6xl font-extrabold text-center'
+					text={greeting?.first || 'Ola'}
+					className='text-[#042848] text-4xl tracking-widest font-extrabold text-center'
 					delay={150}
 					animationFrom={{
 						opacity: 0,
@@ -23,8 +61,8 @@ export const Header = () => {
 					// onLetterAnimationComplete={handleAnimationComplete}
 				/>
 				<SplitText
-					text='MORNING'
-					className='text-[#042848] text-6xl font-extrabold text-center'
+					text={greeting?.second || 'Tudo bem?'}
+					className='text-[#042848] text-4xl pb-1 tracking-widest font-extrabold text-center'
 					delay={150}
 					animationFrom={{
 						opacity: 0,
