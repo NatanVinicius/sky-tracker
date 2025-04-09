@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Home } from './Components/Home/Home';
 function App() {
 	return (
-		<div className='bg-[#F8FAFF]'>
+		<div className='bg-[#dadada]'>
 			<Home />
 		</div>
 	);
