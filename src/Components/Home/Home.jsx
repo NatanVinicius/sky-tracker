@@ -1,12 +1,13 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { Header } from '../Header/Header';
 import { Loader } from '../../Hooks/Loader';
 import { WeatherContext } from '../Context/WeatherContext'; // Importar o contexto correto
+import ApexChart from '../CharTemp.jsx/ApexChart';
 
 export const Home = () => {
 	const [loader, setLoader] = useState(true);
-	const { fetchCity, cityData } = useContext(WeatherContext);
+	const { fetchCity, cityData, weather } =
+		useContext(WeatherContext);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
@@ -14,13 +15,12 @@ export const Home = () => {
 	}, []);
 
 	useEffect(() => {
-		if (cityData) {
+		if (cityData && weather) {
 			setTimeout(() => {
 				setLoader(false);
-				console.log(cityData);
 			}, 2000);
 		}
-	}, [cityData]);
+	}, [cityData, weather]);
 
 	return (
 		<div className='h-screen w-[950px] mx-auto p-10 '>
@@ -38,8 +38,8 @@ export const Home = () => {
 								className='size-5'
 							/>
 						</div>
-						<div className='w-full h-70 rounded-lg bg-amber-500 '>
-							{' '}
+						<div className='w-full h-70 rounded-lg bg-zinc-300 '>
+							<ApexChart id={0} />
 							<br />
 						</div>
 					</div>
