@@ -22,7 +22,7 @@ export const weatherData = async (city) => {
 	try {
 		const data = await axios.get(URL_API);
 		const response = data.data;
-		return data;
+		return response;
 	} catch (error) {
 		throw new Error(error);
 	}
