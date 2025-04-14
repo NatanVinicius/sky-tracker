@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { WeatherContext } from '../Context/WeatherContext';
 
-const ApexChart = ({ id }) => {
+const ApexChart = ({ id, preciptation }) => {
 	const now = new Date();
 	const hours = now.getHours() + 1;
 	const { weather } = useContext(WeatherContext);
@@ -10,6 +10,7 @@ const ApexChart = ({ id }) => {
 	let newHour = 0;
 
 	const formartHours = (hour) => {
+		console.log(weather);
 		const normalizedHour = hour % 24;
 		const suffix = normalizedHour >= 12 ? 'pm' : 'am';
 		let displayHour = normalizedHour % 12;
@@ -28,7 +29,7 @@ const ApexChart = ({ id }) => {
 		return newHour;
 	};
 
-	const series = [
+	const temp = [
 		{
 			name: 'Temperature',
 			data: [
@@ -58,15 +59,50 @@ const ApexChart = ({ id }) => {
 		},
 	];
 
+	const precip = [
+		{
+			name: 'Preciptation',
+			data: [
+				Math.floor(
+					forecast[checkHoursForecast(hours)].chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 3)].chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 6)].chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 9)].chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 12)]
+						.chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 15)]
+						.chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 18)]
+						.chance_of_rain,
+				),
+				Math.floor(
+					forecast[checkHoursForecast(hours + 21)]
+						.chance_of_rain,
+				),
+			],
+		},
+	];
+
 	const options = {
 		chart: {
-			height: 0,
 			type: 'line',
 			width: '100%',
-			color: 'F8A43B',
+			color: preciptation ? '#000' : '#F8A43B',
 			dropShadow: {
 				enabled: true,
-				color: '#F8A43B',
+				color: preciptation ? '#000' : '#F8A43B',
 				top: 18,
 				left: 7,
 				blur: 10,
@@ -80,8 +116,9 @@ const ApexChart = ({ id }) => {
 			},
 		},
 		tooltip: {
-			enabled: false, // ✅ tooltip desativado
+			enabled: false,
 		},
+
 		dataLabels: {
 			offsetY: -10,
 			style: {
@@ -91,13 +128,16 @@ const ApexChart = ({ id }) => {
 				enabled: false,
 			},
 			enabled: true, // ✅ desativa os números nos pontos
+			formatter: (value) => `${value}%`,
 		},
 		stroke: {
-			colors: ['#F8A43B', '#F8A43B'],
+			colors: preciptation
+				? ['#000', '#000']
+				: ['#F8A43B', '#F8A43B'],
 			curve: 'straight',
 		},
 		title: {
-			text: 'Average High & Low Temperature',
+			text: 'Temperature and Preciptation',
 			align: 'center',
 		},
 		markers: {
@@ -107,7 +147,7 @@ const ApexChart = ({ id }) => {
 			},
 		},
 		xaxis: {
-			offsetY: -25,
+			offsetY: 0,
 			categories: [
 				formartHours(hours),
 				formartHours(hours + 3),
@@ -136,8 +176,8 @@ const ApexChart = ({ id }) => {
 			},
 		},
 		yaxis: {
-			min: 5,
-			max: 40,
+			min: 0,
+			max: 100,
 			axisBorder: {
 				show: false,
 			},
@@ -178,7 +218,7 @@ const ApexChart = ({ id }) => {
 		<div id='chart'>
 			<ReactApexChart
 				options={options}
-				series={series}
+				series={preciptation ? precip : temp}
 				type='line'
 				height={250}
 			/>
