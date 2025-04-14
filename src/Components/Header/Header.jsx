@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { Logo } from '../../assets/logo';
 import SplitText from '../Effects/SplitText';
 
-export const Header = () => {
+export const Header = ({
+	handleClick,
+	handleChange,
+	handleKeyDown,
+	value,
+}) => {
 	const GREETINGS = [
 		{
 			start: 0,
@@ -41,7 +46,7 @@ export const Header = () => {
 	}, []);
 
 	return (
-		<div className='flex justify-between'>
+		<div className='h-[90px] flex justify-between'>
 			<div className='flex flex-col items-start'>
 				<SplitText
 					text={greeting?.first || 'Ola'}
@@ -77,6 +82,51 @@ export const Header = () => {
 					rootMargin='-50px'
 					// onLetterAnimationComplete={handleAnimationComplete}
 				/>
+			</div>
+			<div className='h-full w-[40%] flex items-end'>
+				<form className='w-full'>
+					<label
+						htmlFor='search'
+						className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
+					>
+						Search
+					</label>
+					<div className='relative'>
+						<div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
+							<svg
+								className='w-4 h-4 text-gray-500 dark:text-gray-400'
+								aria-hidden='true'
+								xmlns='http://www.w3.org/2000/svg'
+								fill='none'
+								viewBox='0 0 20 20'
+							>
+								<path
+									stroke='currentColor'
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									strokeWidth='2'
+									d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+								/>
+							</svg>
+						</div>
+						<input
+							type='text'
+							onChange={handleChange}
+							onKeyDown={handleKeyDown}
+							className='block w-full p-3 ps-10 text-sm text-gray-900 border border-[#c2c2c5] rounded-lg bg-[##D4D4D8] outline-0'
+							placeholder='Search'
+							value={value}
+							required
+						/>
+						<button
+							type='button'
+							onClick={handleClick}
+							className='text-white absolute end-2.5 bottom-2.5 bg-[#398FBD] hover:bg-[#276281] rounded-lg text-sm px-2.5 py-1 cursor-pointer transition-all delay-50'
+						>
+							Search
+						</button>
+					</div>
+				</form>
 			</div>
 			<div>
 				<Logo />

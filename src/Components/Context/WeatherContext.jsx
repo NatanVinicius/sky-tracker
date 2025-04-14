@@ -11,6 +11,7 @@ export const WeatherContext = createContext();
 export const WeatherContextProvider = ({ children }) => {
 	const [cityData, setCityData] = useState(null);
 	const [weather, setWeather] = useState([]);
+	const [loader, setLoader] = useState(true);
 
 	const fetchCity = async () => {
 		try {
@@ -24,10 +25,20 @@ export const WeatherContextProvider = ({ children }) => {
 	};
 
 	const fetchWeatherData = async (city) => {
+		setLoader(true);
 		try {
 			const data = await weatherData(city);
-			if (data) setWeather(data);
+			if (data) {
+				setWeather(data);
+				setTimeout(() => {
+					setLoader(false);
+				}, 1000);
+			}
 		} catch (error) {
+			setTimeout(() => {
+				setLoader(false);
+				setWeather(null);
+			}, 1000);
 			throw new Error(error);
 		}
 	};
@@ -47,7 +58,13 @@ export const WeatherContextProvider = ({ children }) => {
 
 	return (
 		<WeatherContext.Provider
-			value={{ fetchCity, cityData, weather }}
+			value={{
+				fetchCity,
+				cityData,
+				fetchWeatherData,
+				weather,
+				loader,
+			}}
 		>
 			{children}
 		</WeatherContext.Provider>
