@@ -99,10 +99,10 @@ const ApexChart = ({ id, preciptation }) => {
 		chart: {
 			type: 'line',
 			width: '100%',
-			color: preciptation ? '#000' : '#F8A43B',
+			color: preciptation ? '#8AB4F8' : '#F8A43B',
 			dropShadow: {
 				enabled: true,
-				color: preciptation ? '#000' : '#F8A43B',
+				color: preciptation ? '#8AB4F8' : '#F8A43B',
 				top: 18,
 				left: 7,
 				blur: 10,
@@ -122,23 +122,28 @@ const ApexChart = ({ id, preciptation }) => {
 		dataLabels: {
 			offsetY: -10,
 			style: {
-				colors: ['#042848'], // Define a cor do dataLabel aqui
+				colors: preciptation
+					? ['#8AB4F8', '#8AB4F8']
+					: ['#000', '#000'],
 			},
 			background: {
 				enabled: false,
 			},
 			enabled: true, // ✅ desativa os números nos pontos
-			formatter: (value) => `${value}%`,
+			formatter: (value) => (preciptation ? `${value}%` : value),
 		},
 		stroke: {
 			colors: preciptation
-				? ['#000', '#000']
+				? ['#8AB4F8', '#8AB4F8']
 				: ['#F8A43B', '#F8A43B'],
 			curve: 'straight',
 		},
 		title: {
 			text: 'Temperature and Preciptation',
 			align: 'center',
+			style: {
+				color: preciptation ? '#fff' : '#042747',
+			},
 		},
 		markers: {
 			size: 1,
@@ -170,6 +175,10 @@ const ApexChart = ({ id, preciptation }) => {
 			},
 			labels: {
 				show: true,
+
+				style: {
+					colors: preciptation ? '#fff' : '#555',
+				},
 			},
 			crosshairs: {
 				show: false, // ✅ remove linha pontilhada ao passar o mouse
@@ -220,7 +229,7 @@ const ApexChart = ({ id, preciptation }) => {
 				options={options}
 				series={preciptation ? precip : temp}
 				type='line'
-				height={250}
+				height={180}
 			/>
 		</div>
 	);
